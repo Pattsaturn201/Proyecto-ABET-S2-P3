@@ -1,0 +1,84 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_TURNS 60
+
+struct Machine  
+{
+    int turn;
+    char state[60];
+    char quality[60];
+    char day[60];
+    char month[60];
+};
+
+void Createturn(struct Machine *machine);
+void Showturn(const struct Machine *machine);
+
+int main(int argc, char const *argv[])
+{
+    int option;
+    struct Machine machine[MAX_TURNS];
+
+    do
+    {
+        printf("Welcome to the Menu\n");
+        printf("1. Generate Machine data production\n");
+        printf("2. Exit\n");
+        scanf("%d", &option);
+
+        switch (option)
+        {
+        case 1:
+            for (int i = 0; i < MAX_TURNS; i++) {
+                Createturn(&machine[i]);
+            }
+            for (int i = 0; i < MAX_TURNS; i++) {
+                Showturn(&machine[i]);
+            }
+            break;
+        case 2:
+            printf("Thank you for using our code\n");
+            break;
+        default:
+            printf("This option does not exist, try again\n");
+            break;
+        }
+
+    } while (option != 2);
+
+    return 0;
+}
+
+void Createturn(struct Machine *machine)
+{
+    machine->turn = rand() % 100 + 1; // Generar un número aleatorio entre 1 y 100 para la eficiencia
+
+    if (machine->turn <= 80)
+    {
+        strcpy(machine->state, "Working");
+        strcpy(machine->quality, "Good");
+    }
+    else
+    {
+        strcpy(machine->state, "Faulty");
+        strcpy(machine->quality, "Questionable");
+    }
+
+    int monthNum = rand() % 2 + 1; // Generar un número aleatorio entre 1 y 2 para el mes (enero o febrero)
+    if (monthNum == 1) {
+        strcpy(machine->month, "January");
+    } else {
+        strcpy(machine->month, "February");
+    }
+
+    int dayNum = rand() % 28 + 1; // Generar un número aleatorio entre 1 y 28 para el día
+    sprintf(machine->day, "%d", dayNum);
+}
+
+void Showturn(const struct Machine *machine)
+{
+    printf("Turn: %d; Month: %s; Day %s; State: %s; Quality: %s; Percentage: %.2f%%\n",
+           machine->turn, machine->month, machine->day, machine->state, machine->quality, (float)machine->turn);
+}
