@@ -1,0 +1,37 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_MAQUINAS 3
+
+struct Maquina {
+    char nombre[20];
+    float materia_prima_utilizada;
+    float materia_prima_desperdiciada;
+};
+
+float CalcularPorcentajeUso(float utilizada, float desperdiciada) {
+    if (utilizada > 0) {
+        return ((utilizada - desperdiciada) / utilizada) * 100.0;
+    } else {
+        return 0.0;
+    }
+}
+
+int main() {
+    struct Maquina maquinas[MAX_MAQUINAS] = {
+        {"Maquina 1", 1000.0, 50.0},
+        {"Maquina 2", 800.0, 30.0},
+        {"Maquina 3", 1200.0, 60.0}
+    };
+
+    printf("Resultados del análisis de desperdicio de materia prima:\n\n");
+
+    for (int i = 0; i < MAX_MAQUINAS; i++) {
+        float porcentaje_uso = CalcularPorcentajeUso(maquinas[i].materia_prima_utilizada, maquinas[i].materia_prima_desperdiciada);
+        printf("Máquina: %s\n", maquinas[i].nombre);
+        printf("Porcentaje de uso de materia prima: %.2f%%\n\n", porcentaje_uso);
+    }
+
+    return 0;
+}
